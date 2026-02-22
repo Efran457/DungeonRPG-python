@@ -1,0 +1,23 @@
+{
+  "name": "Multiple Rooms",
+  "des": "It has not 1 but TWO rooms! *only find 3 keys!*",
+  "max-keys": 3,
+  "map": [
+    "WWWWWWWWWWWWWWWWWWWWWWWWWWW",
+    "WK      W K W    E    W   W",
+    "W  W    W   WK        W   W",
+    "W EW    W   WWWWWWWW  W   W",
+    "WWWW  WWWW  W         W   W",
+    "W     WWWW            WK  W",
+    "W     E               W   W",
+    "W           W         W   W",
+    "W   W   WWWWW     K   W   W",
+    "W   W   W  PW             W",
+    "W   W   W   W             W",
+    "W   W       WWWWWWWWWWWW  W",
+    "W E W     WWW             W",
+    "W K W     E W WWWWWWWWWWWWW",
+    "W W WWWWW   W             D",
+    "WWWWWWWWWWWWWWWWWWWWWWWWWWW"
+  ]
+}

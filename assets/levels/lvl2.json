@@ -1,16 +1,19 @@
 {
+  "name": "The Challenge",
+  "des": "You're good! But i am BETTERRR!",
+  "max-keys": 5,
   "map": [
     "WWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWW",
-    "WK  W                          EKW",
-    "W   W                            W",
-    "WWW                              W",
-    "W    WWWW                        W",
-    "W    WWWW                     WWWW",
-    "W      P                         W",
-    "W  WWWWWWWWWW                    W",
-    "W                                W",
-    "W     EK                         W",
-    "W                                D",
+    "WK             W  E W          EKW",
+    "W   W          WE   W            W",
+    "WWWWW   WW     WWWWWW            W",
+    "W       WW                       W",
+    "W              WW          WW WWWW",
+    "W      P       WW          WW  K W",
+    "W  WWWWWWWWWW      W       WW WWWW",
+    "W          KW      W             W",
+    "W     E     W      WWWW          W",
+    "W           W      WK            D",
     "WWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWW"
   ]
 }
