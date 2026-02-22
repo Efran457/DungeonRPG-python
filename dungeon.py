@@ -8,7 +8,24 @@ import os
 
 pygame.init()
 
-BASE = os.path.dirname(__file__)
+import sys, os
+
+def resource_path(relative_path):
+    """ Get absolute path to resource, works for dev and PyInstaller """
+    relative_path = relative_path.replace("/", os.sep).replace("\\", os.sep)
+    try:
+        base_path = sys._MEIPASS
+    except Exception:
+        base_path = os.path.abspath(".")
+    return os.path.join(base_path, relative_path)
+
+def load_font(path: str, size: int) -> pygame.font.Font:
+    """ Load a font safely, falling back to pygame default if not found """
+    full_path = resource_path(path)
+    if os.path.exists(full_path):
+        return pygame.font.Font(full_path, size)
+    print(f"[WARN] Font not found: {full_path} — using system default")
+    return pygame.font.SysFont("arial", size)
 
 # region Helper functions
 def get_all_enemy_in_map() -> list[Tuple[int, int]]:
@@ -34,12 +51,21 @@ def reset_game() -> None:
     TILE_HEIGHT = len(Map)
     TILE_WIDTH = len(Map[0])
     # Rescale Tiles
-    wall_tile = pygame.transform.scale(wall_tile, (TILE_SIZE, TILE_SIZE))
-    floor_tile = pygame.transform.scale(floor_tile, (TILE_SIZE, TILE_SIZE))
-    key_tile = pygame.transform.scale(key_tile, (TILE_SIZE, TILE_SIZE))
-    door_tile = pygame.transform.scale(door_tile, (TILE_SIZE, TILE_SIZE))
-    enemy_tile = pygame.transform.scale(enemy_tile, (TILE_SIZE, TILE_SIZE))
-    player_tile = pygame.transform.scale(player_tile, (TILE_SIZE, TILE_SIZE))
+    wall_tile = pygame.transform.scale(
+        pygame.image.load(resource_path("assets/images/wall.png")), (TILE_SIZE, TILE_SIZE))
+    floor_tile = pygame.transform.scale(
+        pygame.image.load(resource_path("assets/images/floor_tile1.png")), (TILE_SIZE, TILE_SIZE))
+    key_tile = pygame.transform.scale(
+        pygame.image.load(resource_path("assets/images/key.png")), (TILE_SIZE, TILE_SIZE))
+    door_tile = pygame.transform.scale(
+        pygame.image.load(resource_path("assets/images/door.png")), (TILE_SIZE, TILE_SIZE))
+    enemy_tile = pygame.transform.scale(
+        pygame.image.load(resource_path("assets/images/enemy.png")), (TILE_SIZE, TILE_SIZE))
+    player_tile = pygame.transform.scale(
+        pygame.image.load(resource_path("assets/images/Player.png")), (TILE_SIZE, TILE_SIZE))
+
+    icon = pygame.transform.scale(
+        pygame.image.load(resource_path("assets/images/icon.png")), (64, 64))
 
     player_pos = get_player_pos()
     keys_collected = 0
@@ -50,7 +76,7 @@ def spawn_animation() -> None:
     global offset, level_path, clock
     offset = (0, 100)
     name, des = get_game_name_and_description(level_path)
-    small_font = pygame.font.Font(os.path.join(BASE, "assets", "font", "nfpixels_font.ttf"), 30)
+    small_font = load_font("assets/font/nfpixels_font.ttf", 30)
     text = font.render(name, True, (255, 255, 255))
     inftext = small_font.render(des, True, (255, 255, 255))
     showing_text = True
@@ -286,7 +312,6 @@ def get_all_keys_in_map(json_path: str) -> int:
     try:
         return data["max-keys"]
     except KeyError:
-        # Count actual keys in the map as fallback
         map_data = data["map"]
         key_count = sum(row.count("K") for row in map_data)
         return key_count if key_count > 0 else 3
@@ -294,8 +319,8 @@ def get_all_keys_in_map(json_path: str) -> int:
 
 # region Setup variables
 level = 1
-level_path = os.path.join(BASE, "assets", "levels", f"lvl{level}.json")
-font = pygame.font.Font(os.path.join(BASE, "assets", "font", "nfpixels_font.ttf"), 50)
+level_path = os.path.join(resource_path(f"assets/levels/lvl{level}.json"))
+font = load_font("assets/font/nfpixels_font.ttf", 50)
 
 # W = 'Wall', D = 'Door', E = 'Enemy', K = 'Key', P = 'Player'
 Map: list[list[Any]] = load_game_map(level_path)
@@ -311,20 +336,20 @@ HEIGHT: int = TILE_HEIGHT * TILE_SIZE
 
 # region Load Images
 wall_tile = pygame.transform.scale(
-    pygame.image.load(os.path.join(BASE, "assets", "images", "wall.png")), (TILE_SIZE, TILE_SIZE))
+    pygame.image.load(resource_path("assets/images/wall.png")), (TILE_SIZE, TILE_SIZE))
 floor_tile = pygame.transform.scale(
-    pygame.image.load(os.path.join(BASE, "assets", "images", "floor_tile1.png")), (TILE_SIZE, TILE_SIZE))
+    pygame.image.load(resource_path("assets/images/floor_tile1.png")), (TILE_SIZE, TILE_SIZE))
 key_tile = pygame.transform.scale(
-    pygame.image.load(os.path.join(BASE, "assets", "images", "key.png")), (TILE_SIZE, TILE_SIZE))
+    pygame.image.load(resource_path("assets/images/key.png")), (TILE_SIZE, TILE_SIZE))
 door_tile = pygame.transform.scale(
-    pygame.image.load(os.path.join(BASE, "assets", "images", "door.png")), (TILE_SIZE, TILE_SIZE))
+    pygame.image.load(resource_path("assets/images/door.png")), (TILE_SIZE, TILE_SIZE))
 enemy_tile = pygame.transform.scale(
-    pygame.image.load(os.path.join(BASE, "assets", "images", "enemy.png")), (TILE_SIZE, TILE_SIZE))
+    pygame.image.load(resource_path("assets/images/enemy.png")), (TILE_SIZE, TILE_SIZE))
 player_tile = pygame.transform.scale(
-    pygame.image.load(os.path.join(BASE, "assets", "images", "Player.png")), (TILE_SIZE, TILE_SIZE))
+    pygame.image.load(resource_path("assets/images/Player.png")), (TILE_SIZE, TILE_SIZE))
 
 icon = pygame.transform.scale(
-    pygame.image.load(os.path.join(BASE, "assets", "images", "icon.png")), (64, 64))
+    pygame.image.load(resource_path("assets/images/icon.png")), (64, 64))
 # endregion
 
 # Initialize window
@@ -396,7 +421,7 @@ while running:
         screen.blit(inftext, (WIDTH // 2 - inftext.get_width() // 2, HEIGHT // 2 + text.get_height()))
         if keys[pygame.K_RETURN]:
             level += 1
-            level_path = os.path.join(BASE, "assets", "levels", f"lvl{level}.json")
+            level_path = resource_path(f"assets/levels/lvl{level}.json")
             Map = load_game_map(level_path)
             reset_game()
             spawn_animation()

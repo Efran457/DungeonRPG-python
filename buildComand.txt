@@ -1,0 +1,7 @@
+comand to run if i want to make a EXE
+only works if you have PyInstaller
+
+bash:
+cd Downloads/dungeonRPG
+pip install PyInstaller
+python -m PyInstaller --onefile --noconsole --icon=assets/images/icon-big.ico --add-data "assets/images;assets/images" --add-data "assets/font;assets/font" --add-data "assets/levels;assets/levels" dungeon.py
